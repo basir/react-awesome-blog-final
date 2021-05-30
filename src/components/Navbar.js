@@ -12,26 +12,29 @@ export default function Navbar() {
     history.push('/search/' + query);
   };
   return (
-    <div className="header row">
-      <NavLink to="/" exact={true} activeClassName="active">
-        <strong>Awesome Blog</strong>
-      </NavLink>
-      <div>
+    <div className="header">
+      <div className="header-item">
+        <NavLink to="/" exact={true} activeClassName="active">
+          <strong>Awesome Blog</strong>
+        </NavLink>
+      </div>
+      <div className="header-item">
         <form onSubmit={handleSubmit}>
           <input
             onChange={(e) => setQuery(e.target.value)}
             name="query"
             type="text"
+            placeholder="search posts"
           ></input>
-          <button>Search</button>
+          <button>Go</button>
         </form>
       </div>
-      <div className="nav-links">
+      <div className="header-item">
         {user ? (
           <>
             <NavLink to="/profile" activeClassName="active">
               {user.name}
-            </NavLink>
+            </NavLink>{' '}
             <NavLink to="/create" activeClassName="active">
               Create post
             </NavLink>
@@ -40,7 +43,7 @@ export default function Navbar() {
           <NavLink to="/login" activeClassName="active">
             Login
           </NavLink>
-        )}
+        )}{' '}
         <button onClick={toggleTheme}>
           {theme === 'light' ? 'Theme:Light' : 'Theme:Dark'}
         </button>{' '}
