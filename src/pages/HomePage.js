@@ -1,6 +1,6 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useContext, useEffect, useReducer } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { apiServer } from '../config';
+import { ThemeContext } from '../ThemeContext';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -33,6 +33,7 @@ const reducer = (state, action) => {
   }
 };
 export default function HomePage() {
+  const { backendAPI } = useContext(ThemeContext);
   const { userId, query } = useParams();
   const [state, dispatch] = useReducer(reducer, {
     loading: false,
@@ -47,7 +48,7 @@ export default function HomePage() {
     dispatch({ type: 'USERS_REQUEST' });
     try {
       const response = await fetch(
-        userId ? `${apiServer}/users/${userId}` : `${apiServer}/users`
+        userId ? `${backendAPI}/users/${userId}` : `${backendAPI}/users`
       );
       const data = await response.json();
       dispatch({
@@ -62,7 +63,7 @@ export default function HomePage() {
     dispatch({ type: 'POSTS_REQUEST' });
     try {
       const response = await fetch(
-        userId ? `${apiServer}/posts?userId=${userId}` : `${apiServer}/posts`
+        userId ? `${backendAPI}/posts?userId=${userId}` : `${backendAPI}/posts`
       );
       const data = await response.json();
       const filteredData = query
@@ -78,7 +79,7 @@ export default function HomePage() {
   useEffect(() => {
     loadUsers();
     loadPosts();
-  }, [userId, query]);
+  }, [userId, query, backendAPI]);
   return (
     <div className="blog">
       <div className="content">

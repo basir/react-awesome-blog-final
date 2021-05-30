@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useReducer, useState } from 'react';
 import { Redirect } from 'react-router';
-import { apiServer } from '../config';
+
 import { ThemeContext } from '../ThemeContext';
 
 const reducer = (state, action) => {
@@ -28,7 +28,7 @@ const reducer = (state, action) => {
   }
 };
 export default function ProfilePage() {
-  const { user, setUser } = useContext(ThemeContext);
+  const { user, setUser, backendAPI } = useContext(ThemeContext);
 
   const [state, dispatch] = useReducer(reducer, {
     loading: false,
@@ -59,7 +59,7 @@ export default function ProfilePage() {
     e.preventDefault();
     dispatch({ type: 'UPDATE_REQUEST' });
     try {
-      const response = await fetch(`${apiServer}/users/${user.id}`, {
+      const response = await fetch(`${backendAPI}/users/${user.id}`, {
         method: 'PUT',
         body: JSON.stringify({ ...user, email, name, password, phone }),
         headers: {

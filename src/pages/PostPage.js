@@ -1,6 +1,6 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useContext, useEffect, useReducer } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { apiServer } from '../config';
+import { ThemeContext } from '../ThemeContext';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -21,6 +21,7 @@ const reducer = (state, action) => {
   }
 };
 export default function PostPage() {
+  const { backendAPI } = useContext(ThemeContext);
   const { postId } = useParams();
   const [state, dispatch] = useReducer(reducer, {
     loading: false,
@@ -36,9 +37,11 @@ export default function PostPage() {
   const loadData = async () => {
     dispatch({ type: 'DATA_REQUEST' });
     try {
-      const postResponse = await fetch(`${apiServer}/posts/${postId}`);
+      const postResponse = await fetch(`${backendAPI}/posts/${postId}`);
       const postData = await postResponse.json();
-      const userResponse = await fetch(`${apiServer}/users/${postData.userId}`);
+      const userResponse = await fetch(
+        `${backendAPI}/users/${postData.userId}`
+      );
       const userData = await userResponse.json();
       dispatch({
         type: 'DATA_SUCCESS',
@@ -50,7 +53,7 @@ export default function PostPage() {
   };
   useEffect(() => {
     loadData();
-  }, []);
+  }, [backendAPI]);
   return (
     <div>
       <Link to={`/`}>back to posts</Link>

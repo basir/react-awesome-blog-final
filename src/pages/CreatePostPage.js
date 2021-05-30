@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useReducer, useState } from 'react';
 import { Redirect } from 'react-router';
-import { apiServer } from '../config';
+
 import { ThemeContext } from '../ThemeContext';
 const initialState = {
   loading: false,
@@ -36,7 +36,7 @@ const reducer = (state, action) => {
   }
 };
 export default function LoginPage() {
-  const { user } = useContext(ThemeContext);
+  const { user, backendAPI } = useContext(ThemeContext);
 
   const [state, dispatch] = useReducer(reducer, initialState);
   const { loading, error, success, createdPost } = state;
@@ -54,7 +54,7 @@ export default function LoginPage() {
     e.preventDefault();
     dispatch({ type: 'CREATE_REQUEST' });
     try {
-      const { data } = await axios.post(`${apiServer}/posts`, {
+      const { data } = await axios.post(`${backendAPI}/posts`, {
         id: Math.floor(Math.random() * 100000),
         title,
         body,

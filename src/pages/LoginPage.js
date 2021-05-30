@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useContext, useEffect, useReducer, useState } from 'react';
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
-import { apiServer } from '../config';
+
 import { ThemeContext } from '../ThemeContext';
 
 const reducer = (state, action) => {
@@ -24,7 +24,7 @@ const reducer = (state, action) => {
   }
 };
 export default function LoginPage() {
-  const { user, setUser } = useContext(ThemeContext);
+  const { user, setUser, backendAPI } = useContext(ThemeContext);
 
   const [state, dispatch] = useReducer(reducer, {
     loading: false,
@@ -50,7 +50,7 @@ export default function LoginPage() {
     dispatch({ type: 'LOGIN_REQUEST' });
     try {
       const { data } = await axios.get(
-        `${apiServer}/users?email=${email}&password=${password}`
+        `${backendAPI}/users?email=${email}&password=${password}`
       );
       if (data.length > 0) {
         dispatch({

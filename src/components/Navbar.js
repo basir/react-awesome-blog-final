@@ -5,7 +5,8 @@ import { ThemeContext } from '../ThemeContext';
 export default function Navbar() {
   const history = useHistory();
   const [query, setQuery] = useState('');
-  const { user, toggleTheme } = useContext(ThemeContext);
+  const { user, theme, toggleTheme, backendAPI, toggleBackendAPI } =
+    useContext(ThemeContext);
   const handleSubmit = (e) => {
     e.preventDefault();
     history.push('/search/' + query);
@@ -40,9 +41,11 @@ export default function Navbar() {
             Login
           </NavLink>
         )}
-
-        <button onClick={toggleTheme} className="button">
-          Switch theme
+        <button onClick={toggleTheme}>
+          {theme === 'light' ? 'Theme:Light' : 'Theme:Dark'}
+        </button>{' '}
+        <button onClick={toggleBackendAPI}>
+          {backendAPI === '/api' ? 'API:Real' : 'API:Mock'}
         </button>
       </div>
     </div>

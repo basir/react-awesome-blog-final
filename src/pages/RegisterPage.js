@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useReducer, useState } from 'react';
 import { Redirect } from 'react-router';
-import { apiServer } from '../config';
+
 import { ThemeContext } from '../ThemeContext';
 
 const reducer = (state, action) => {
@@ -29,7 +29,7 @@ const reducer = (state, action) => {
   }
 };
 export default function RegisterPage() {
-  const { user, setUser } = useContext(ThemeContext);
+  const { user, setUser, backendAPI } = useContext(ThemeContext);
 
   const [state, dispatch] = useReducer(reducer, {
     loading: false,
@@ -51,7 +51,7 @@ export default function RegisterPage() {
     e.preventDefault();
     dispatch({ type: 'REGISTER_REQUEST' });
     try {
-      const { data: registeredUser } = await axios.post(`${apiServer}/users`, {
+      const { data: registeredUser } = await axios.post(`${backendAPI}/users`, {
         id: Math.floor(Math.random() * 100000),
         email,
         name,
