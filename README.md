@@ -22,3 +22,4 @@ demo app:    https://react-awesome-blog.herokuapp.com/
 6. list posts
 7. create sidebar and show users
 8. filter posts by authors
+9. Search posts
